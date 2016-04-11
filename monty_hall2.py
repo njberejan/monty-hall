@@ -31,7 +31,7 @@ def gets_CPUplayer_second_pick(CPUplayer_choices_list):
     CPUplayer_door_2 = random.choice(CPUplayer_choices_list)
     return CPUplayer_door_2
 
-def main():
+def main(won_and_stuck_to_guns, won_and_changed_course, computer_losses):
     host_choices_list = [1, 2, 3]
     CPUplayer_choices_list = [1, 2, 3]
     #list of available choices to CPU player
@@ -49,8 +49,9 @@ def main():
     host_choices_list.remove(random_door)
     #removes the winning door from the possible doors for the host to open
 
-    host_choices_list.remove(CPUplayer_door)
-    #removes the player's door from the possible doors for the host to open
+    if CPUplayer_door != random_door:
+        host_choices_list.remove(CPUplayer_door)
+        #removes the player's door from the possible doors for the host to open
 
     opened_door = opens_door(host_choices_list)
     #host opens the door that is not the player's choice and not the winning door
@@ -70,10 +71,11 @@ def main():
     else:
         computer_losses += 1
     #if computer lost
-
+    return won_and_stuck_to_guns, won_and_changed_course, computer_losses
 
 #IF STATEMENT. IF COMPUTER 2nd CHOICE = 1st CHOICE, COUNT WIN OR LOSS (dictionary with win and loss as key, and number as value?)
 for _ in range(1000):
-    main()
-    print(won_and_stuck_to_guns)
-    print(won_and_changed_course)
+    won_and_stuck_to_guns, won_and_changed_course, computer_losses = main(won_and_stuck_to_guns, won_and_changed_course, computer_losses)
+print(won_and_stuck_to_guns)
+print(won_and_changed_course)
+print(computer_losses)

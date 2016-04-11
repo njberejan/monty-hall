@@ -3,65 +3,79 @@ Your task is to write that computer simulation. Prove that switching doors is be
 #by simulating 1000 games using each strategy and comparing the winning percentage.
 import random
 """
-
+# REMOVE ITEM FROM LIST THAT IS NOT RANDOM DOOR AND NOT PLAYER DOOR
 import random
-
+won_and_stuck_to_guns = 0
+won_and_changed_course = 0
+computer_losses = 0
 #need to create three random doors with variables
 #need to write function to have computer select random door as winner and assign to variables
-#prompt user to input choice of door (this can later be fed into function as "player selection" for purposes of running simulations)
+#prompt user to input choice of door (this can later be fed into function as "CPUplayer selection" for purposes of running simulations)
 #computer must determine if user input == winning door
 #if not, must remove the door that is not the winning door and not the user door
-#player must be prompted again to pick between two doors
+#CPUplayer must be prompted again to pick between two doors
 #must determine if user's second choice is winner or not
 
 def gets_computer_pick():
-    random_door = random.randint(1, 3)
+    random_door = random.randint(1 , 3)
     return random_door
 
-def gets_player_pick():
-    while True:
-        player_door = input("Please choose a door, 1, 2, or 3: ")
-        if not player_door.isnumeric():
-            print("That's not a number, dummy!")
-            continue
-        elif int(player_door) > 3:
-            print("Please pick between 1 and 3.")
-            continue
-        else:
-            return player_door
+def gets_CPUplayer_pick():
+    CPUplayer_door = random.randint(1 , 3)
+    return CPUplayer_door
 
-def gets_player_second_pick(player_door, random_door, doors):
-    while True:
-        if not int(player_door) == random_door:
-            print('Goat!')
-            player_door_2 = str(input("Please choose another door, {} or {}: ".format(doors[0], random_door)))
-            return player_door_2
+def opens_door(host_choices_list):
+    return host_choices_list[0]
 
-def gets_outcome_of_game(player_door_2, random_door):
-    while True:
-        if int(player_door_2) == random_door:
-            print('You picked the winning door!')
-            break
-        else:
-            print('A second goat! Have fun with that, loser!')
-            break
+def gets_CPUplayer_second_pick(CPUplayer_choices_list):
+    CPUplayer_door_2 = random.choice(CPUplayer_choices_list)
+    return CPUplayer_door_2
 
-def removes_picked_doors_from_list(player_door, random_door, doors):
-    if int(player_door) == random_door:
-        print('should quit now')
-    else:
-        doors.remove(int(player_door))
-        doors.remove(int(random_door))
-    return doors
+def main(won_and_stuck_to_guns, won_and_changed_course, computer_losses):
+    host_choices_list = [1, 2, 3]
+    CPUplayer_choices_list = [1, 2, 3]
+    #list of available choices to CPU player
 
-def main():
-    doors = [1, 2, 3]
     random_door = gets_computer_pick()
-    print('debug random number: ', random_door)
-    player_door = gets_player_pick()
-    doors = removes_picked_doors_from_list(player_door, random_door, doors)
-    player_door_2 = gets_player_second_pick(player_door, random_door, doors)
-    gets_outcome_of_game(player_door_2, random_door)
+    #determines which door has the prize behind it
+
+    # print('debug random number: ', random_door)
+
+    CPUplayer_door = gets_CPUplayer_pick()
+    #returns a random guess from the CPU player
+
+    # print('debug CPUplayer_door: ', CPUplayer_door)
+
+    host_choices_list.remove(random_door)
+    #removes the winning door from the possible doors for the host to open
+
+    if CPUplayer_door != random_door:
+        host_choices_list.remove(CPUplayer_door)
+        #removes the player's door from the possible doors for the host to open
+
+    opened_door = opens_door(host_choices_list)
+    #host opens the door that is not the player's choice and not the winning door
+
+    CPUplayer_choices_list.remove(opened_door)
+    #removes the open door from the list of possible choices for CPU player to PICK
+
+    CPUplayer_door_2 = gets_CPUplayer_second_pick(CPUplayer_choices_list)
+    #determines whether CPU player sticks with original guess or chooses to open the other door.
+
+    if CPUplayer_door == CPUplayer_door_2 and CPUplayer_door == random_door:
+        won_and_stuck_to_guns += 1
+    #if second choice same as first choice which is same as winning door:
+    elif CPUplayer_door != CPUplayer_door_2 and CPUplayer_door_2 == random_door:
+        won_and_changed_course += 1
+    #if second choice different from first choice but same as winning door:
+    else:
+        computer_losses += 1
+    #if computer lost
+    return won_and_stuck_to_guns, won_and_changed_course, computer_losses
 
 #IF STATEMENT. IF COMPUTER 2nd CHOICE = 1st CHOICE, COUNT WIN OR LOSS (dictionary with win and loss as key, and number as value?)
-main()
+for _ in range(1000):
+    won_and_stuck_to_guns, won_and_changed_course, computer_losses = main(won_and_stuck_to_guns, won_and_changed_course, computer_losses)
+print('Wins where the computer doubled down on the first choice: ', won_and_stuck_to_guns)
+print('Wins where the computer changed direction like a coward: ', won_and_changed_course)
+print('Total losses: ', computer_losses)
