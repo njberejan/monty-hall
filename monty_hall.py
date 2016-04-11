@@ -30,14 +30,14 @@ def gets_player_pick():
         else:
             return player_door
 
-def gets_player_second_pick(player_door, random_door):
+def gets_player_second_pick(player_door, random_door, doors):
     while True:
         if not int(player_door) == random_door:
             print('Goat!')
             player_door_2 = str(input("Please choose another door, {} or {}: ".format(doors[0], random_door)))
             return player_door_2
 
-def gets_outcome_of_game(player_door_2):
+def gets_outcome_of_game(player_door_2, random_door):
     while True:
         if int(player_door_2) == random_door:
             print('You picked the winning door!')
@@ -54,10 +54,14 @@ def removes_picked_doors_from_list(player_door, random_door, doors):
         doors.remove(int(random_door))
     return doors
 
-doors = [1, 2, 3]
-random_door = gets_computer_pick()
-print('debug random number: ', random_door)
-player_door = gets_player_pick()
-doors = removes_picked_doors_from_list(player_door, random_door, doors)
-player_door_2 = gets_player_second_pick(player_door, random_door)
-gets_outcome_of_game(player_door_2)
+def main():
+    doors = [1, 2, 3]
+    random_door = gets_computer_pick()
+    print('debug random number: ', random_door)
+    player_door = gets_player_pick()
+    doors = removes_picked_doors_from_list(player_door, random_door, doors)
+    player_door_2 = gets_player_second_pick(player_door, random_door, doors)
+    gets_outcome_of_game(player_door_2, random_door)
+
+#IF STATEMENT. IF COMPUTER 2nd CHOICE = 1st CHOICE, COUNT WIN OR LOSS (dictionary with win and loss as key, and number as value?)
+main()
