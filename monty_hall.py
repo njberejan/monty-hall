@@ -3,18 +3,11 @@ Your task is to write that computer simulation. Prove that switching doors is be
 #by simulating 1000 games using each strategy and comparing the winning percentage.
 import random
 """
-# REMOVE ITEM FROM LIST THAT IS NOT RANDOM DOOR AND NOT PLAYER DOOR
+
 import random
 won_and_stuck_to_guns = 0
 won_and_changed_course = 0
 computer_losses = 0
-#need to create three random doors with variables
-#need to write function to have computer select random door as winner and assign to variables
-#prompt user to input choice of door (this can later be fed into function as "CPUplayer selection" for purposes of running simulations)
-#computer must determine if user input == winning door
-#if not, must remove the door that is not the winning door and not the user door
-#CPUplayer must be prompted again to pick between two doors
-#must determine if user's second choice is winner or not
 
 def gets_computer_pick():
     random_door = random.randint(1 , 3)
@@ -80,5 +73,7 @@ print('Wins where the computer doubled down on the first choice: ', won_and_stuc
 print('a {} winning percentage'.format(won_and_stuck_to_guns/1000))
 print('Wins where the computer changed direction like a coward: ', won_and_changed_course)
 print('a {} winning percentage'.format(won_and_changed_course/1000))
+print('Total wins: ', won_and_stuck_to_guns + won_and_changed_course)
+print('a {} winning percentage'.format((won_and_stuck_to_guns + won_and_changed_course)/1000))
 print('Total losses: ', computer_losses)
 print('a {} losing percentage'.format(computer_losses/1000))
