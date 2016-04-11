@@ -62,7 +62,7 @@ def main(won_and_stuck_to_guns, won_and_changed_course, computer_losses):
     CPUplayer_door_2 = gets_CPUplayer_second_pick(CPUplayer_choices_list)
     #determines whether CPU player sticks with original guess or chooses to open the other door.
 
-    if CPUplayer_door == CPUplayer_door_2 and CPUplayer_door == random_door:
+    if CPUplayer_door == CPUplayer_door_2 and CPUplayer_door_2 == random_door:
         won_and_stuck_to_guns += 1
     #if second choice same as first choice which is same as winning door:
     elif CPUplayer_door != CPUplayer_door_2 and CPUplayer_door_2 == random_door:
@@ -77,5 +77,8 @@ def main(won_and_stuck_to_guns, won_and_changed_course, computer_losses):
 for _ in range(1000):
     won_and_stuck_to_guns, won_and_changed_course, computer_losses = main(won_and_stuck_to_guns, won_and_changed_course, computer_losses)
 print('Wins where the computer doubled down on the first choice: ', won_and_stuck_to_guns)
+print('a {} winning percentage'.format(won_and_stuck_to_guns/1000))
 print('Wins where the computer changed direction like a coward: ', won_and_changed_course)
+print('a {} winning percentage'.format(won_and_changed_course/1000))
 print('Total losses: ', computer_losses)
+print('a {} losing percentage'.format(computer_losses/1000))
